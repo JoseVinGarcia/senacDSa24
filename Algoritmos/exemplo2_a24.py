@@ -1,8 +1,12 @@
 # AULA 24 - Usando Polars
 
+import pandas as pd
 import polars as pl
 from datetime import datetime
 import gc # garbage collector
+
+# Com pandas - 02m19s
+# Com polars - 00m56s
 
 try:
     ENDERECO_DADOS = r'./dados/'
@@ -14,11 +18,11 @@ try:
 
     for arquivo in lista_arquivos:
         print(f"Processando arquivo {arquivo}")
-        df = pd.read_csv(ENDERECO_DADOS + arquivo,sep=';',encoding='iso-8859-1')
+        df = pl.read_csv(ENDERECO_DADOS + arquivo,separator=';',encoding='iso-8859-1')
 
         # verifica no ambiente local se tem uma variavel chamada df_bolsa_familia. De primeira retornará o Else
         if "df_bolsa_familia" in locals():
-            df_bolsa_familia = pd.concat([df_bolsa_familia, df])
+            df_bolsa_familia = pl.concat([df_bolsa_familia, df])
         else:
             df_bolsa_familia = df
     
@@ -33,9 +37,9 @@ try:
     gc.collect()
 
     # hora final
-    hora_impressao = datetime.now()
+    fim = datetime.now()
 
-    print(f"Tempo de execução: {hora_impressao - inicio}")
+    print(f"Tempo de execução: {fim - inicio}")
 
 except ImportError as e:
     print(f"Erro ao obter dados: {e}")
